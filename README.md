@@ -8,9 +8,14 @@ A blogging application. Formatted as a demonstration of the following:
 * Sprint 3 branch: Final
 * Master branch: Full featured app
 
-# Sprint 1
+# Sprint 2
 
 All data is user generated. No external APIs. I will use fake data for the MVP.
+
+Resources:
+
+- https://www.bootstrapcdn.com/
+
 
 Stories: 
 
@@ -20,20 +25,11 @@ Stories:
 - User can read any articles
 - User can update their own articles
 
-## Models
-
-__Overview__
-* User
-* Article
-
-## Wireframes
-
-__Overview__
-
 
 ## TODO
 
-- Data modeling
-- Seed file
-- Base template with bootstrap
-- Running server
+- Create registration and login
+- Create templates for: nav, header, footer, home
+- Create templates for: article CRUD
+- Articles should display in a list on the home page
+- Log everything
