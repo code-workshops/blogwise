@@ -19,8 +19,8 @@ def generate_data():
         # Each user should have 7 articles ...
         for i in range(7):
             article = Article(author_id=user.id,
-                              title=fake.words(nb=random.randrange(1, 3)).capitalize(),
-                              content=fake.paragraphs(nb=4))
+                              title=' '.join(fake.words(nb=random.randrange(1, 3))).capitalize(),
+                              content='\n\n'.join(fake.paragraphs(nb=4)))
             db.session.add(article)
         db.session.commit()
 

@@ -1,5 +1,7 @@
 from flask import Flask, render_template, redirect
 
+from models import User, Article
+
 app = Flask(__name__)
 
 
@@ -17,4 +19,5 @@ def index():
     # Try to replace your print() statements with logs instead anywhere 
     # that you're testing the live server.
     app.logger.info("Home page loaded.")
-    return render_template('index.html')
+    articles = Article.query.all()
+    return render_template('index.html', articles=articles)
