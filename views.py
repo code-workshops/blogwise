@@ -15,11 +15,8 @@ def index():
     * Route decorator
     * View function (this function)
     """
-    
-    # Try to replace your print() statements with logs instead anywhere 
-    # that you're testing the live server.
     app.logger.info("Home page loaded.")
-    articles = Article.query.all()
+    articles = Article.query.order_by(Article.created).all()
     return render_template('index.html', articles=articles)
 
 
@@ -29,18 +26,25 @@ def articles():
     """
     Returns all articles.
     """
-    articles = Article.query.all()
+    articles = Article.query.order_by(Article.created).all()
     return render_template('articles/list.html', articles=articles)
 
 
-@app.route('/articles', methods=['POST'])
+@app.route('/article/new')
 def article_new():
+    """Render form to create a new article."""
+    return render_template('articles/new.html')
+
+
+@app.route('/articles', methods=['POST'])
+def article_create():
     """
     Creates a new article and redirects user to it.
     """
-    article = Article(title=request.form.get('title'), content=request.form.get('content'))
-    db.session.add(article)
-    db.session.commit(article)
+    article = Article(title=request.form.get('title'),
+                      content=request.form.get('content'),
+                      author_id=request.form.get('author_id'))
+    article.save()
 
     return redirect(f'/articles/{article.id}')
 
