@@ -6,12 +6,9 @@ fake = Faker()
 
 
 def generate_data():
-    User.query.delete()
-    Article.query.delete()
-
     # Create 5 users ...
     for _ in range(5):
-        user = User(name=fake.name(), password=fake.password())
+        user = User(name=fake.name(), email=fake.email(), password=fake.password())
         db.session.add(user)
         # User must be commited! Or it won't have an id to assign it to Author
         db.session.commit()
