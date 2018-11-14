@@ -1,6 +1,6 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, flash, render_template, redirect, request, session
 
-from models import User, Article
+from models import Article, User
 
 app = Flask(__name__)
 
@@ -20,7 +20,7 @@ def index():
     return render_template('index.html', articles=articles)
 
 
-# RESTful routes
+# ARTICLE ROUTES
 @app.route('/articles')
 def articles():
     """
@@ -97,5 +97,60 @@ def article_delete(article_id):
     article.save()
     # db.session.delete(article)
     # db.session.commit()
+
+    return redirect('/')
+
+
+# USER ROUTES
+
+
+@app.route('/signup')
+def signup_form():
+    """Render signup form."""
+    return render_template('signup.html')
+
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    """Register new users!"""
+    # TODO: Allow javascript to verify a match on the form!
+    pword_conf = request.form.get('passwordConf')
+    password = request.form.get('password')
+
+    if password == pword_conf:
+        user = User(name=request.form.get('name'),
+                    email=request.form.get('email'),
+                    password=password)
+        user.save()
+        app.logger.info('User signup successful!')
+        session['user_id'] = user.id
+
+        return redirect('/')
+    else:
+        app.logger.info("User signp failed!")
+        flash("Passwords don't match!")
+
+        return render_template('signup.html')
+
+
+@app.route('/login')
+def login_form():
+    """Render login form."""
+    return render_template('login.html')
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    """Log the user in!"""
+    user = User.query.filter_by(email=request.form.get('email'),
+                             password=request.form.get('password')).first_or_404()
+    session['user_id'] = user.id
+
+    return redirect('/')
+
+
+@app.route('/logout')
+def logout():
+    session.clear()
 
     return redirect('/')
