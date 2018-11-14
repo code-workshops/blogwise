@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="/articles/{{ article.id }}" method="post">
+    <input type="hidden" name="user_id" value="{{ session.get('author_id') }}">
+    <div class="form-group row">
+      <label for="articleTitle" class="col-md-6 col-form-label">Article Title</label>
+      <div class="col-md-6">
+          <input type="text" class="form-control" name="title" id="articleTitle" value="{{article.title}}">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="articleContent">Content</label>
+      <textarea name="content" class="form-control" id="articleContent" rows="25">
+          {{ article.content }}
+      </textarea>
+    </div>
+    <input type="submit" value="Update Article">
+</form>
+
+{% endblock %}

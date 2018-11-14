@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %}Blogwise | {{ article.title }} {% endblock %}
+
 {% block content %}
 
 <h1>{{ article.title }}</h1>
@@ -7,4 +9,5 @@
 <div>
     {{ article.content }}
 </div>
+<a href="/articles/{{ article.id }}/edit">Edit</a>
 {% endblock %}

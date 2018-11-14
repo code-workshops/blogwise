@@ -82,8 +82,7 @@ def article_update(article_id):
     if article.content != new_content:
         article.content = new_content
 
-    db.session.add(article)
-    db.session.commit()
+    article.save()
 
     return redirect(f'/articles/{article_id}')
 
@@ -91,7 +90,8 @@ def article_update(article_id):
 @app.route('/articles/<int:article_id>/delete')
 def article_delete(article_id):
     article = Article.query.get(article_id)
-    db.session.delete(article)
-    db.session.commit()
+    article.save()
+    # db.session.delete(article)
+    # db.session.commit()
 
     return redirect('/')
