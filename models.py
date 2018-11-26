@@ -2,6 +2,8 @@ import datetime as dt
 
 from flask_sqlalchemy import SQLAlchemy
 
+from werkzeug.security import generate_password_hash, check_password_hash
+
 db = SQLAlchemy()
 
 
@@ -20,6 +22,21 @@ class User(db.Model):
         """A method to make saving users simpler."""
         db.session.add(self)
         db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def create_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def is_valid_password(self, password):
+        return check_password_hash(self.password, password)
+
+    def change_password(self, password):
+        if self.is_valid_password(password):
+            self.create_password(password)
+            self.save()
 
 
 class Article(db.Model):
