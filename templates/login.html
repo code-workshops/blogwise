@@ -1,23 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<form action="/login" method="post">
-    <div class="form-group row">
-      <label for="userEmail" class="col-md-6 col-form-label">Email: </label>
-      <div class="col-md-6">
+<div class="row justify-content-center">
+    <form action="/login" method="post">
+        <div class="form-group">
+          <label for="userEmail">Email: </label>
           <input type="email" class="form-control" name="email" id="userEmail"">
-      </div>
-    </div>
+        </div>
 
-    <div class="form-group row">
-      <label for="userPassword" class="col-md-6 col-form-label">Password: </label>
-      <div class="col-md-6">
+        <div class="form-group">
+          <label for="userPassword">Password: </label>
           <input type="password" class="form-control" name="password" id="userPassword"">
-      </div>
-    </div>
+        </div>
 
-    <input type="submit" value="Login">
-</form>
-
+        <input type="submit" value="Login">
+    </form>
+</div>
 {% endblock %}

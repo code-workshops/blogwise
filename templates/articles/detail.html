@@ -9,5 +9,7 @@
 <div>
     {{ article.content }}
 </div>
-<a href="/articles/{{ article.id }}/edit">Edit</a>
+{% if session.get('user_id') == article.author.id %}
+    <a href="/articles/{{ article.id }}/edit">Edit</a>
+{% endif %}
 {% endblock %}
