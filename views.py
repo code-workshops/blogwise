@@ -5,18 +5,11 @@ from models import Article, User
 app = Flask(__name__)
 
 
-# Step 1: Get 1 route working for sanity check. See server.py for more step 1
-
 @app.route('/')
 def index():
-    """
-    This is a view pattern. Note:
-    
-    * Route decorator
-    * View function (this function)
-    """
+    """Home page. """
     app.logger.info("Home page loaded.")
-    articles = Article.query.order_by(Article.created).all()
+    articles = Article.query.order_by(Article.created.desc()).all()
     return render_template('index.html', articles=articles)
 
 
@@ -68,6 +61,10 @@ def article_edit(article_id):
 
     The full article content is returned so that the user can view the old and make updates to it.
     """
+    if session.get('user_id') != article_id:
+        flash("You do not have permission to edit this article.")
+        return redirect(f'articles/{article_id}')
+
     article = Article.query.get(article_id)
     return render_template('articles/edit.html', article=article)
 
@@ -94,16 +91,15 @@ def article_update(article_id):
 @app.route('/articles/<int:article_id>/delete')
 def article_delete(article_id):
     article = Article.query.get(article_id)
-    article.save()
-    # db.session.delete(article)
-    # db.session.commit()
+
+    if session.get('user_id') == article.author_id:
+        Article.query.delete(article_id)
+        app.logger.info(f"Article {article_id} deleted.")
 
     return redirect('/')
 
 
 # USER ROUTES
-
-
 @app.route('/signup')
 def signup_form():
     """Render signup form."""
@@ -119,15 +115,15 @@ def signup():
 
     if password == pword_conf:
         user = User(name=request.form.get('name'),
-                    email=request.form.get('email'),
-                    password=password)
+                    email=request.form.get('email'))
+        user.create_password(password)
         user.save()
         app.logger.info('User signup successful!')
         session['user_id'] = user.id
 
         return redirect('/')
     else:
-        app.logger.info("User signp failed!")
+        app.logger.info("User signup failed!")
         flash("Passwords don't match!")
 
         return render_template('signup.html')
@@ -142,11 +138,13 @@ def login_form():
 @app.route('/login', methods=['POST'])
 def login():
     """Log the user in!"""
-    user = User.query.filter_by(email=request.form.get('email'),
-                             password=request.form.get('password')).first_or_404()
-    session['user_id'] = user.id
-
-    return redirect('/')
+    user = User.query.filter_by(email=request.form.get('email')).first_or_404()
+    if user.is_valid_password(request.form.get('password')):
+        session['user_id'] = user.id
+        return redirect('/')
+    else:
+        flash("Invalid password. Try again.")
+        return render_template('login.html')
 
 
 @app.route('/logout')

@@ -1,37 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="row justify-content-center">
 
-<form action="/signup" method="post">
-    <div class="form-group row">
-      <label for="userName" class="col-md-6 col-form-label">Name: </label>
-      <div class="col-md-6">
-          <input type="text" class="form-control" name="name" id="userName"">
-      </div>
-    </div>
+    <form action="/signup" method="post">
+        <div class="form-group row">
+          <label for="userName" class="col-md-6 col-form-label">Name: </label>
+              <input type="text" class="form-control" name="name" id="userName"">
+        </div>
 
-    <div class="form-group row">
-      <label for="userEmail" class="col-md-6 col-form-label">Email: </label>
-      <div class="col-md-6">
-          <input type="email" class="form-control" name="email" id="userEmail"">
-      </div>
-    </div>
+        <div class="form-group row">
+          <label for="userEmail" class="col-md-6 col-form-label">Email: </label>
+              <input type="email" class="form-control" name="email" id="userEmail"">
+        </div>
 
-    <div class="form-group row">
-      <label for="userPassword" class="col-md-6 col-form-label">Password: </label>
-      <div class="col-md-6">
-          <input type="password" class="form-control" name="password" id="userPassword"">
-      </div>
-    </div>
+        <div class="form-group row">
+          <label for="userPassword" class="col-md-6 col-form-label">Password: </label>
+              <input type="password" class="form-control" name="password" id="userPassword"">
+        </div>
 
-    <div class="form-group row">
-      <label for="passwordConf" class="col-md-6 col-form-label">Confirm Password: </label>
-      <div class="col-md-6">
-          <input type="password" class="form-control" name="passwordConf" id="passwordConf"">
-      </div>
-    </div>
+        <div class="form-group row">
+          <label for="passwordConf" class="col-md-6 col-form-label">Confirm Password: </label>
+              <input type="password" class="form-control" name="passwordConf" id="passwordConf"">
+        </div>
 
-    <input type="submit" value="Sign Up!">
-</form>
-
+        <input type="submit" value="Sign Up!">
+    </form>
+</div>
 {% endblock %}
