@@ -9,7 +9,7 @@ app = Flask(__name__)
 def index():
     """Home page. """
     app.logger.info("Home page loaded.")
-    articles = Article.query.order_by(Article.created.desc()).all()
+    articles = Article.query.order_by(Article.modified.desc()).all()
     return render_template('index.html', articles=articles)
 
 
