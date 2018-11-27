@@ -33,9 +33,9 @@ class User(db.Model):
     def is_valid_password(self, password):
         return check_password_hash(self.password, password)
 
-    def change_password(self, password):
-        if self.is_valid_password(password):
-            self.create_password(password)
+    def change_password(self, old, new):
+        if self.is_valid_password(old):
+            self.create_password(new)
             self.save()
 
 

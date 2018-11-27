@@ -11,6 +11,9 @@
       </li>
       {% if session.get('user_id') %}
       <li class="nav-item">
+        <a class="nav-link" href="/user/{{ session.get('user_id') }}">Profile</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="/logout">Logout</a>
       </li>
       <li class="nav-item">
