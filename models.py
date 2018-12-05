@@ -6,8 +6,24 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
+article_comments = db.Table('article_comments',
+    db.Column('article_id', db.Integer, db.ForeignKey('articles.id')),
+    db.Column('comment_id', db.Integer, db.ForeignKey('comments.id')),
+)
 
-class User(db.Model):
+
+class ModelMixin:
+    def save(self):
+        """A method to make saving users simpler."""
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+
+class User(ModelMixin, db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -17,15 +33,6 @@ class User(db.Model):
 
     def __repr__(self):
         return f"<User {self.id} | {self.name}>"
-
-    def save(self):
-        """A method to make saving users simpler."""
-        db.session.add(self)
-        db.session.commit()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
 
     def create_password(self, password):
         self.password = generate_password_hash(password)
@@ -39,7 +46,7 @@ class User(db.Model):
             self.save()
 
 
-class Article(db.Model):
+class Article(ModelMixin, db.Model):
     __tablename__ = 'articles'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -52,14 +59,23 @@ class Article(db.Model):
     modified = db.Column(db.DateTime, default=dt.datetime.utcnow, onupdate=dt.datetime.utcnow)
 
     author = db.relationship('User', backref='articles', lazy=True)
+    comments = db.relationship('Comment', secondary='article_comments', backref=db.backref('article'))
 
     def __repr__(self):
         return f"<Article {self.id} | {self.title[:10]} ... by {self.author.name}>"
 
-    def save(self):
-        """A method to make saving articles simpler."""
-        db.session.add(self)
-        db.session.commit()
+
+class Comment(ModelMixin, db.Model):
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    body = db.Column(db.Text)
+    created = db.Column(db.DateTime, default=dt.datetime.utcnow)
+    user = db.relationship('User', lazy=True)
+
+    def __repr__(self):
+        return f"<Comment {self.id} by {self.user_id} on {self.created}"
 
 
 def connect_to_db(app):
