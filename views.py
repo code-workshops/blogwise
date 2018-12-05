@@ -1,6 +1,6 @@
 from flask import Flask, flash, render_template, redirect, request, session
 
-from models import Article, User
+from models import Article, Comment, User
 
 app = Flask(__name__)
 
@@ -229,3 +229,36 @@ def user_change_pw(user_id):
     else:
         flash('Your password was not changed.', 'warning')
         return redirect('/')
+
+
+# COMMENT ROUTES
+@app.route('/articles/<int:article_id>/comments', methods=['POST'])
+def comment_create(article_id):
+    user_id = session.get('user_id')
+    if user_id:
+        article = Article.query.get(article_id)
+        comment = Comment(user_id=user_id,
+                          body=request.form.get('body'))
+        comment.save()
+        article.comments.append(comment)
+        article.save()
+
+        # Confirm that the *comment* has been properly updated.
+        app.logger.info('Comment {comment.id} for article {comment.article} created.')
+        return redirect(f'articles/{article_id}')
+
+    flash('You must login to leave a comment.')
+    return redirect(f'article/{article_id}')
+
+
+@app.route('/health-check')
+def health_check_form():
+    return render_template('testing.html')
+
+
+@app.route('/health-check', methods=['POST'])
+def health_check():
+    form = request.form.get('books')
+    app.logger.info(form.split())
+
+    return render_template('testing.html')
