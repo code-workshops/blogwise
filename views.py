@@ -251,14 +251,15 @@ def comment_create(article_id):
     return redirect(f'article/{article_id}')
 
 
-@app.route('/health-check')
+@app.route('/sandbox')
 def health_check_form():
-    return render_template('testing.html')
+    articles = Article.query.all()
+    return render_template('sandbox.html', articles=articles)
 
 
-@app.route('/health-check', methods=['POST'])
+@app.route('/sandbox', methods=['POST'])
 def health_check():
     form = request.form.get('books')
     app.logger.info(form.split())
 
-    return render_template('testing.html')
+    return render_template('sandbox.html')
