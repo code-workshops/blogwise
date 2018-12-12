@@ -1,5 +1,5 @@
 import random
-from models import *
+from .models import *
 from faker import Faker
 
 fake = Faker()
@@ -10,7 +10,7 @@ def generate_data():
     for _ in range(5):
         user = User(name=fake.name(), email=fake.email(), password=fake.password())
         db.session.add(user)
-        # User must be commited! Or it won't have an id to assign it to Author
+        # User must be committed! Or it won't have an id to assign it to Author
         db.session.commit()
 
         # Each user should have 7 articles ...
