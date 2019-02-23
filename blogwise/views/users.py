@@ -3,10 +3,10 @@ from flask import (Blueprint, current_app, flash,
                    session)
 from blogwise.models import User
 
-user_bp = Blueprint('users', __name__, template_folder='templates/users')
+bp = Blueprint('users', __name__)
 
 
-@user_bp.route('/user/<int:user_id>')
+@bp.route('/user/<int:user_id>')
 def user_profile(user_id):
     if not session.get('user_id'):
         flash('You must log in to view profiles.', 'info')
@@ -16,14 +16,14 @@ def user_profile(user_id):
         return render_template('users/profile.html', user=user)
 
 
-@user_bp.route('/user/<int:user_id>/edit')
+@bp.route('/user/<int:user_id>/edit')
 def user_edit_template(user_id):
     if session.get('user_id') == user_id:
         user = User.query.get(user_id)
         return render_template('users/edit.html', user=user)
 
 
-@user_bp.route('/user/<int:user_id>', methods=['POST'])
+@bp.route('/user/<int:user_id>', methods=['POST'])
 def user_edit(user_id):
     if session.get('user_id') == user_id:
         user = User.query.get(user_id)
@@ -37,14 +37,14 @@ def user_edit(user_id):
         return redirect('/')
 
 
-@user_bp.route('/user/<int:user_id>/change-password')
+@bp.route('/user/<int:user_id>/change-password')
 def user_change_pw_template(user_id):
     if session.get('user_id') == user_id:
         user = User.query.get(user_id)
         return render_template('users/change_password.html', user=user)
 
 
-@user_bp.route('/user/<int:user_id>/change-password', methods=['POST'])
+@bp.route('/user/<int:user_id>/change-password', methods=['POST'])
 def user_change_pw(user_id):
     if session.get('user_id') == user_id:
         user = User.query.get(user_id)

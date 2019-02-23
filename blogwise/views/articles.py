@@ -3,10 +3,10 @@ from flask import (Blueprint, current_app, flash,
                    session)
 from blogwise.models import Article, Comment
 
-article_bp = Blueprint('articles', __name__, template_folder='templates/articles')
+bp = Blueprint('articles', __name__)
 
 
-@article_bp.route('/articles')
+@bp.route('/articles')
 def articles():
     """
     Returns all articles.
@@ -16,14 +16,14 @@ def articles():
     return render_template('articles/list.html', articles=articles)
 
 
-@article_bp.route('/article/new')
+@bp.route('/article/new')
 def article_new():
     """Render form to create a new article."""
     current_app.logger.info('\t Rendering new article template ...')
     return render_template('articles/new.html')
 
 
-@article_bp.route('/articles', methods=['POST'])
+@bp.route('/articles', methods=['POST'])
 def article_create():
     """
     Creates a new article and redirects user to it.
@@ -41,7 +41,7 @@ def article_create():
         return redirect(f'/articles/{article.id}')
 
 
-@article_bp.route('/articles/<int:article_id>')
+@bp.route('/articles/<int:article_id>')
 def article_detail(article_id):
     """
     Returns a specific article.
@@ -53,7 +53,7 @@ def article_detail(article_id):
     return render_template('articles/detail.html', article=article)
 
 
-@article_bp.route('/articles/<int:article_id>/edit')
+@bp.route('/articles/<int:article_id>/edit')
 def article_edit(article_id):
     """
     Renders the article's edit page.
@@ -68,7 +68,7 @@ def article_edit(article_id):
     return render_template('articles/edit.html', article=article)
 
 
-@article_bp.route('/articles/<int:article_id>', methods=['POST'])
+@bp.route('/articles/<int:article_id>', methods=['POST'])
 def article_update(article_id):
     """
     Updates the current article and redirects the user to it.
@@ -96,7 +96,7 @@ def article_update(article_id):
         return redirect(f'/articles/{article_id}')
 
 
-@article_bp.route('/articles/<int:article_id>/delete')
+@bp.route('/articles/<int:article_id>/delete')
 def article_delete(article_id):
     article = Article.query.get(article_id)
 
@@ -110,7 +110,7 @@ def article_delete(article_id):
 
 
 # COMMENT ROUTES
-@article_bp.route('/articles/<int:article_id>/comments', methods=['POST'])
+@bp.route('/articles/<int:article_id>/comments', methods=['POST'])
 def comment_create(article_id):
     user_id = session.get('user_id')
     if user_id:
