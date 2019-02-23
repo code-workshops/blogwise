@@ -18,7 +18,7 @@ def health_check_form():
     return render_template('sandbox.html', articles=articles)
 
 
-@app.route('/sandbox', methods=['POST'])
+@home_bp.route('/sandbox', methods=['POST'])
 def health_check():
     form = request.form.get('books')
     current_app.logger.info(form.split())

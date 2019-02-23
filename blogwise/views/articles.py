@@ -110,7 +110,7 @@ def article_delete(article_id):
 
 
 # COMMENT ROUTES
-@app.route('/articles/<int:article_id>/comments', methods=['POST'])
+@article_bp.route('/articles/<int:article_id>/comments', methods=['POST'])
 def comment_create(article_id):
     user_id = session.get('user_id')
     if user_id:
@@ -122,7 +122,7 @@ def comment_create(article_id):
         article.save()
 
         # Confirm that the *comment* has been properly updated.
-        app.logger.info('Comment {comment.id} for article {comment.article} created.')
+        current_app.logger.info('Comment {comment.id} for article {comment.article} created.')
         return redirect(f'articles/{article_id}')
 
     flash('You must login to leave a comment.')
