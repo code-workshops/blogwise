@@ -81,8 +81,8 @@ class Comment(ModelMixin, db.Model):
 def connect_to_db(app):
     """Helper function to configure the database with the flask app."""
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogwise'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogwise'
+    # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
 

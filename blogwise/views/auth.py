@@ -3,17 +3,17 @@ from flask import (Blueprint, current_app, flash,
                    session)
 from blogwise.models import User
 
-auth_bp = Blueprint('auth', __name__, template_folder='templates')
+bp = Blueprint('auth', __name__)
 
 
 # AUTH ROUTES
-@auth_bp.route('/signup')
+@bp.route('/signup')
 def signup_form():
     """Render signup form."""
     return render_template('signup.html')
 
 
-@auth_bp.route('/signup', methods=['POST'])
+@bp.route('/signup', methods=['POST'])
 def signup():
     """Register new users!"""
     # TODO: Allow javascript to verify a match on the form!
@@ -37,13 +37,13 @@ def signup():
         return render_template('signup.html')
 
 
-@auth_bp.route('/login')
+@bp.route('/login')
 def login_form():
     """Render login form."""
     return render_template('login.html')
 
 
-@auth_bp.route('/login', methods=['POST'])
+@bp.route('/login', methods=['POST'])
 def login():
     """Log the user in!"""
     user = User.query.filter_by(email=request.form.get('email')).first_or_404()
@@ -56,7 +56,7 @@ def login():
         return render_template('login.html')
 
 
-@auth_bp.route('/logout')
+@bp.route('/logout')
 def logout():
     session.clear()
 
