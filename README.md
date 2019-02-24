@@ -8,7 +8,7 @@ A blogging application. Formatted as a demonstration of the following:
 * Sprint 3 branch: Final
 * Master branch: Full featured app
 
-# Sprint 3
+# About
 
 All data is user generated. No external APIs. I will use fake data for the MVP.
 
@@ -17,12 +17,9 @@ Resources:
 - https://www.bootstrapcdn.com/
 
 
-TODO:
+**TODO:**
 
-- User can update ONLY their profile
-- User can update ONLY their own articles
-- Password hashing
-- Comment system
 - User validation: Check session user against form user
-- Updates without page reloads
+- Updates without page reloads (Vuejs)
 - Sort by last time modified.
+- caching (void database lookups for recent items with LRU)?
