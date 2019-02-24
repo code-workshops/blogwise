@@ -22,6 +22,14 @@ class ModelMixin:
         db.session.delete(self)
         db.session.commit()
 
+    @classmethod
+    def all(cls):
+        return cls.query.all()
+
+    @classmethod
+    def get(cls, item_id):
+        return cls.query.get(item_id)
+
 
 class User(ModelMixin, db.Model):
     __tablename__ = 'users'
