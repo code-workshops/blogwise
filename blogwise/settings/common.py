@@ -3,6 +3,10 @@ import logging
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = False
+ENVIRONMENTS = {'production': 'blogwise.settings.prod',
+                'development': 'blogwise.settings.dev',
+                'test': 'blogwise.settings.test',
+                'staging': 'blowise.settings.staging'}
 
 SESSION_COOKIE_NAME = 'blogwise'
 
