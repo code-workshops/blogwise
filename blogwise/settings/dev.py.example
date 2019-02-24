@@ -10,8 +10,8 @@ SESSION_COOKIE_NAME = 'blogwise'
 LOGGING_LEVEL = logging.INFO
 
 DB_HOST = os.getenv('DB_HOST', 'localhost')
-DB_USER = os.getenv('DB_USER', 'xotomajor')
-DB_PASSWORD = os.getenv('DB_PASSWORD', 'admin')
+DB_USER = os.getenv('DB_USER', 'postgres')
+DB_PASSWORD = os.getenv('DB_PASSWORD', 'postgres')
 DB_PORT = os.getenv('DB_PORT', '5432')
 DB_NAME = os.getenv('DB_NAME', 'blogwise')
 DATABASE_URI = 'postgresql://{}:{}@{}/{}'.format(DB_USER,
