@@ -60,11 +60,11 @@ def article_edit(article_id):
 
     The full article content is returned so that the user can view the old and make updates to it.
     """
-    if session.get('user_id') != article_id:
+    article = Article.query.get(article_id)
+    if session.get('user_id') != article.author_id:
         flash('You do not have permission to edit this article.', 'warning')
         return redirect(f'articles/{article_id}')
 
-    article = Article.query.get(article_id)
     return render_template('articles/edit.html', article=article)
 
 
